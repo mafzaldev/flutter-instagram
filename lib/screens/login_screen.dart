@@ -1,7 +1,5 @@
 // ignore_for_file: deprecated_member_use
 
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram/screens/signup_screen.dart';
 import 'package:flutter_instagram/widgets/blue_button.dart';
@@ -19,6 +17,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -61,7 +60,16 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 20),
             BlueButton(
               text: "Login",
-              onPressed: () => log("Login"),
+              isLoading: _isLoading,
+              onPressed: () async {
+                setState(() {
+                  _isLoading = true;
+                });
+                await Future.delayed(const Duration(seconds: 2));
+                setState(() {
+                  _isLoading = false;
+                });
+              },
             ),
             Flexible(
               flex: 2,

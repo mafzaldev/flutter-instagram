@@ -24,6 +24,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
+  bool _isLoading = false;
   Uint8List? _profileImage;
 
   @override
@@ -113,12 +114,27 @@ class _SignupScreenState extends State<SignupScreen> {
                   const SizedBox(height: 20),
                   BlueButton(
                     text: "Sign up",
-                    onPressed: () => FireAuth().signUpUser(
-                        email: _emailController.text,
-                        password: _passwordController.text,
-                        username: _usernameController.text,
-                        bio: _bioController.text,
-                        profileImage: _profileImage!),
+                    isLoading: _isLoading,
+                    onPressed: () async {
+                      setState(() {
+                        _isLoading = true;
+                      });
+                      String result = await FireAuth().signUpUser(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                          username: _usernameController.text,
+                          bio: _bioController.text,
+                          profileImage: _profileImage!);
+                      _emailController.clear();
+                      _passwordController.clear();
+                      _usernameController.clear();
+                      _bioController.clear();
+                      setState(() {
+                        _profileImage = null;
+                        _isLoading = false;
+                      });
+                      Utils.showToast(result);
+                    },
                   ),
                   Flexible(
                     flex: 1,

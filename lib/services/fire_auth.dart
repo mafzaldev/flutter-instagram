@@ -2,13 +2,13 @@ import "package:firebase_auth/firebase_auth.dart";
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_instagram/services/fire_storage.dart';
-import 'package:flutter_instagram/utils/utils.dart';
 
 class FireAuth {
   FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  String result = "";
 
-  Future<void> signUpUser({
+  Future<String> signUpUser({
     required String email,
     required String password,
     required String username,
@@ -37,10 +37,19 @@ class FireAuth {
           "following": [],
         });
 
-        Utils.showToast("User registered successfully", false);
+        result = "User registered successfully";
+      }
+    } on FirebaseAuthException catch (err) {
+      if (err.code == 'weak-password') {
+        result = "The password provided is too weak";
+      } else if (err.code == 'email-already-in-use') {
+        result = "The account already exists for that email";
+      } else if (err.code == 'invalid-email') {
+        result = "The email address is not valid";
       }
     } catch (e) {
-      Utils.showToast(e.toString(), true);
+      result = e.toString();
     }
+    return result;
   }
 }

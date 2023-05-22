@@ -3,12 +3,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Utils {
-  static showToast(String text, bool isError) {
+  static showToast(String text) {
     Fluttertoast.showToast(
         msg: text,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
-        backgroundColor: isError ? Colors.red : Colors.grey,
+        backgroundColor: Colors.grey,
         textColor: Colors.white,
         fontSize: 14.0);
   }
@@ -22,6 +22,6 @@ class Utils {
     if (file != null) {
       return await file.readAsBytes();
     }
-    showToast("Error occured while picking image!", true);
+    showToast("Error occured while picking image!");
   }
 }
