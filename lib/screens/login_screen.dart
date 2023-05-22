@@ -1,6 +1,9 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter_instagram/responsive/mobile_screen_layout.dart';
+import 'package:flutter_instagram/responsive/responsive_layout_screen.dart';
+import 'package:flutter_instagram/responsive/web_screen_layout.dart';
 import 'package:flutter_instagram/screens/signup_screen.dart';
 import 'package:flutter_instagram/services/fire_auth.dart';
 import 'package:flutter_instagram/utils/utils.dart';
@@ -37,6 +40,10 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailController.clear();
     _passwordController.clear();
     Utils.showToast(result);
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      return const ResponsiveLayout(
+          webLayout: WebScreenLayout(), mobileLayout: MobileScreenLayout());
+    }));
     setState(() {
       _isLoading = false;
     });

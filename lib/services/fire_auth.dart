@@ -3,6 +3,7 @@ import 'dart:developer';
 import "package:firebase_auth/firebase_auth.dart";
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_instagram/models/user.dart' as UserModel;
 import 'package:flutter_instagram/services/fire_storage.dart';
 
 class FireAuth {
@@ -26,18 +27,22 @@ class FireAuth {
         UserCredential userCredential = await auth
             .createUserWithEmailAndPassword(email: email, password: password);
 
-        String profileImageURL = await FireStorage()
+        String photoUrl = await FireStorage()
             .uploadImage("profile_images", profileImage, false);
 
-        _firestore.collection("users").doc(userCredential.user!.uid).set({
-          "uid": userCredential.user!.uid,
-          "username": username,
-          "email": email,
-          "bio": bio,
-          "photoURL": profileImageURL,
-          "followers": [],
-          "following": [],
-        });
+        UserModel.User user = UserModel.User(
+            username: username,
+            uid: userCredential.user!.uid,
+            photoUrl: photoUrl,
+            email: email,
+            bio: bio,
+            followers: [],
+            following: []);
+
+        _firestore
+            .collection("users")
+            .doc(userCredential.user!.uid)
+            .set(user.toJson());
 
         result = "User registered successfully";
       }

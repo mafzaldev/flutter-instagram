@@ -1,7 +1,10 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter_instagram/responsive/mobile_screen_layout.dart';
+import 'package:flutter_instagram/responsive/responsive_layout_screen.dart';
+import 'package:flutter_instagram/responsive/web_screen_layout.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -57,11 +60,15 @@ class _SignupScreenState extends State<SignupScreen> {
     _passwordController.clear();
     _usernameController.clear();
     _bioController.clear();
+    Utils.showToast(result);
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      return const ResponsiveLayout(
+          webLayout: WebScreenLayout(), mobileLayout: MobileScreenLayout());
+    }));
     setState(() {
       _profileImage = null;
       _isLoading = false;
     });
-    Utils.showToast(result);
   }
 
   @override
