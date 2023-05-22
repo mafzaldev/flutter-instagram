@@ -3,30 +3,32 @@ import 'package:flutter_instagram/utils/app_colors.dart';
 
 class BlueButton extends StatelessWidget {
   final String text;
-  final VoidCallback onTap;
-  const BlueButton({super.key, required this.text, required this.onTap});
+  final VoidCallback onPressed;
+  const BlueButton({super.key, required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        height: 48,
-        decoration: BoxDecoration(
-          color: AppColors.blueColor,
-          borderRadius: BorderRadius.circular(4),
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.blue),
+          padding: MaterialStateProperty.all(
+            const EdgeInsets.symmetric(horizontal: 32, vertical: 13),
+          ),
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6),
+            ),
+          ),
         ),
-        child: Center(
-          child: Text(
-            text,
+        onPressed: onPressed,
+        child: Text(text,
             style: const TextStyle(
               color: AppColors.primaryColor,
               fontSize: 16,
               fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
+            )),
       ),
     );
   }

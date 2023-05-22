@@ -51,17 +51,17 @@ class _LoginScreenState extends State<LoginScreen> {
               hintText: "Email",
               textInputType: TextInputType.emailAddress,
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
             TextInputField(
               textEditingController: _passwordController,
               hintText: "Password",
               isPasswordField: true,
               textInputType: TextInputType.text,
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
             BlueButton(
               text: "Login",
-              onTap: () => log("Login"),
+              onPressed: () => log("Login"),
             ),
             Flexible(
               flex: 2,
