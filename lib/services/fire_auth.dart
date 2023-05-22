@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import "package:firebase_auth/firebase_auth.dart";
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
@@ -46,6 +48,29 @@ class FireAuth {
         result = "The account already exists for that email";
       } else if (err.code == 'invalid-email') {
         result = "The email address is not valid";
+      }
+    } catch (e) {
+      result = e.toString();
+    }
+    return result;
+  }
+
+  Future<String> loginUser({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      if (email.isNotEmpty || password.isNotEmpty) {
+        UserCredential userCredential = await auth.signInWithEmailAndPassword(
+            email: email, password: password);
+        log("User logged in successfully with email: ${userCredential.user!.email}");
+        result = "User logged in successfully";
+      }
+    } on FirebaseAuthException catch (err) {
+      if (err.code == 'user-not-found') {
+        result = "No user found for that email";
+      } else if (err.code == 'wrong-password') {
+        result = "Wrong password provided for that user";
       }
     } catch (e) {
       result = e.toString();

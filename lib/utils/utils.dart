@@ -8,9 +8,9 @@ class Utils {
         msg: text,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.grey,
+        backgroundColor: const Color(0xFF818181),
         textColor: Colors.white,
-        fontSize: 14.0);
+        fontSize: 13.0);
   }
 
   static pickImage(ImageSource source) async {

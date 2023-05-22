@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram/screens/signup_screen.dart';
+import 'package:flutter_instagram/services/fire_auth.dart';
+import 'package:flutter_instagram/utils/utils.dart';
 import 'package:flutter_instagram/widgets/blue_button.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_instagram/utils/app_colors.dart';
@@ -24,6 +26,20 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void loginUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String result = await FireAuth().loginUser(
+        email: _emailController.text, password: _passwordController.text);
+    _emailController.clear();
+    _passwordController.clear();
+    Utils.showToast(result);
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -61,15 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
             BlueButton(
               text: "Login",
               isLoading: _isLoading,
-              onPressed: () async {
-                setState(() {
-                  _isLoading = true;
-                });
-                await Future.delayed(const Duration(seconds: 2));
-                setState(() {
-                  _isLoading = false;
-                });
-              },
+              onPressed: loginUser,
             ),
             Flexible(
               flex: 2,
@@ -85,16 +93,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontSize: 16,
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 4),
                 InkWell(
                   onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const SignupScreen())),
                   child: const Text(
-                    "Sign up.",
+                    "Sign up",
                     style: TextStyle(
-                      color: AppColors.blueColor,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),

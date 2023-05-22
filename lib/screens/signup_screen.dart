@@ -43,6 +43,27 @@ class _SignupScreenState extends State<SignupScreen> {
     });
   }
 
+  void signUpUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String result = await FireAuth().signUpUser(
+        email: _emailController.text,
+        password: _passwordController.text,
+        username: _usernameController.text,
+        bio: _bioController.text,
+        profileImage: _profileImage!);
+    _emailController.clear();
+    _passwordController.clear();
+    _usernameController.clear();
+    _bioController.clear();
+    setState(() {
+      _profileImage = null;
+      _isLoading = false;
+    });
+    Utils.showToast(result);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -115,26 +136,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   BlueButton(
                     text: "Sign up",
                     isLoading: _isLoading,
-                    onPressed: () async {
-                      setState(() {
-                        _isLoading = true;
-                      });
-                      String result = await FireAuth().signUpUser(
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                          username: _usernameController.text,
-                          bio: _bioController.text,
-                          profileImage: _profileImage!);
-                      _emailController.clear();
-                      _passwordController.clear();
-                      _usernameController.clear();
-                      _bioController.clear();
-                      setState(() {
-                        _profileImage = null;
-                        _isLoading = false;
-                      });
-                      Utils.showToast(result);
-                    },
+                    onPressed: signUpUser,
                   ),
                   Flexible(
                     flex: 1,
@@ -150,16 +152,15 @@ class _SignupScreenState extends State<SignupScreen> {
                           fontSize: 16,
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 4),
                       InkWell(
                         onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const LoginScreen())),
                         child: const Text(
-                          "Login.",
+                          "Login",
                           style: TextStyle(
-                            color: AppColors.blueColor,
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
