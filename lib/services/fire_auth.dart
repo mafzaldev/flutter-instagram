@@ -1,15 +1,24 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:developer';
 
 import "package:firebase_auth/firebase_auth.dart";
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_instagram/models/user.dart' as UserModel;
+import 'package:flutter_instagram/models/user.dart' as user_model;
 import 'package:flutter_instagram/services/fire_storage.dart';
 
 class FireAuth {
   FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String result = "";
+
+  Future<user_model.User> getUserDetails() async {
+    User currentUser = auth.currentUser!;
+    DocumentSnapshot userSnapshot =
+        await _firestore.collection("users").doc(currentUser.uid).get();
+    return user_model.User.fromSnap(userSnapshot);
+  }
 
   Future<String> signUpUser({
     required String email,
@@ -30,7 +39,7 @@ class FireAuth {
         String photoUrl = await FireStorage()
             .uploadImage("profile_images", profileImage, false);
 
-        UserModel.User user = UserModel.User(
+        user_model.User user = user_model.User(
             username: username,
             uid: userCredential.user!.uid,
             photoUrl: photoUrl,
@@ -44,7 +53,7 @@ class FireAuth {
             .doc(userCredential.user!.uid)
             .set(user.toJson());
 
-        result = "User registered successfully";
+        result = "success";
       }
     } on FirebaseAuthException catch (err) {
       if (err.code == 'weak-password') {

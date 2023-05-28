@@ -39,11 +39,15 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _emailController.text, password: _passwordController.text);
     _emailController.clear();
     _passwordController.clear();
-    Utils.showToast(result);
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return const ResponsiveLayout(
-          webLayout: WebScreenLayout(), mobileLayout: MobileScreenLayout());
-    }));
+    if (result == "success") {
+      Utils.showToast("Logged in successfully!");
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return const ResponsiveLayout(
+            webLayout: WebScreenLayout(), mobileLayout: MobileScreenLayout());
+      }));
+    } else {
+      Utils.showToast(result);
+    }
     setState(() {
       _isLoading = false;
     });
@@ -63,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Container(),
             ),
             SvgPicture.asset(
-              "assets/instagram_logo.svg",
+              "assets/svgs/InstagramLogo.svg",
               color: AppColors.primaryColor,
               height: 64,
             ),
@@ -115,7 +119,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ],
-            )
+            ),
+            const SizedBox(height: 20)
           ]),
         ),
       ),
