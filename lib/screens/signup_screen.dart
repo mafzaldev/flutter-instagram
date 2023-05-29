@@ -50,7 +50,7 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() {
       _isLoading = true;
     });
-    String result = await FireAuth().signUpUser(
+    String result = await FireAuthService().signUpUser(
         email: _emailController.text,
         password: _passwordController.text,
         username: _usernameController.text,
@@ -60,11 +60,14 @@ class _SignupScreenState extends State<SignupScreen> {
     _passwordController.clear();
     _usernameController.clear();
     _bioController.clear();
-    Utils.showToast(result);
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return const ResponsiveLayout(
-          webLayout: WebScreenLayout(), mobileLayout: MobileScreenLayout());
-    }));
+    if (result == "success") {
+      Utils.showToast("Logged in successfully!");
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return const ResponsiveLayout(
+            webLayout: WebScreenLayout(), mobileLayout: MobileScreenLayout());
+      }));
+    }
+
     setState(() {
       _profileImage = null;
       _isLoading = false;

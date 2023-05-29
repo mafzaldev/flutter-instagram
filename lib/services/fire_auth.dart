@@ -8,17 +8,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_instagram/models/user.dart' as user_model;
 import 'package:flutter_instagram/services/fire_storage.dart';
 
-class FireAuth {
+class FireAuthService {
   FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String result = "";
-
-  Future<user_model.User> getUserDetails() async {
-    User currentUser = auth.currentUser!;
-    DocumentSnapshot userSnapshot =
-        await _firestore.collection("users").doc(currentUser.uid).get();
-    return user_model.User.fromSnap(userSnapshot);
-  }
 
   Future<String> signUpUser({
     required String email,
@@ -36,7 +29,7 @@ class FireAuth {
         UserCredential userCredential = await auth
             .createUserWithEmailAndPassword(email: email, password: password);
 
-        String photoUrl = await FireStorage()
+        String photoUrl = await FireStorageService()
             .uploadImage("profile_images", profileImage, false);
 
         user_model.User user = user_model.User(

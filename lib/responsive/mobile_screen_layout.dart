@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram/utils/app_colors.dart';
+import 'package:flutter_instagram/utils/utils.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MobileScreenLayout extends StatefulWidget {
@@ -44,23 +45,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         controller: _pageController,
         onPageChanged: pageChanged,
         physics: const NeverScrollableScrollPhysics(),
-        children: [
-          Container(
-            color: Colors.red,
-          ),
-          Container(
-            color: Colors.blue,
-          ),
-          Container(
-            color: Colors.green,
-          ),
-          Container(
-            color: Colors.yellow,
-          ),
-          Container(
-            color: Colors.purple,
-          ),
-        ],
+        children: Utils.homeScreenItems,
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: AppColors.mobileBackgroundColor,

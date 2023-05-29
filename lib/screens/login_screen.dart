@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       _isLoading = true;
     });
-    String result = await FireAuth().loginUser(
+    String result = await FireAuthService().loginUser(
         email: _emailController.text, password: _passwordController.text);
     _emailController.clear();
     _passwordController.clear();

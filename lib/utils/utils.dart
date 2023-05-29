@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_instagram/screens/add_post_screen.dart';
+import 'package:flutter_instagram/screens/home_feed_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -24,4 +26,18 @@ class Utils {
     }
     showToast("Error occured while picking image!");
   }
+
+  static final homeScreenItems = [
+    const HomeFeedScreen(),
+    Container(
+      color: Colors.blue,
+    ),
+    const AddPostScreen(),
+    Container(
+      color: Colors.yellow,
+    ),
+    Container(
+      color: Colors.purple,
+    ),
+  ];
 }
