@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_instagram/providers/user_provider.dart';
 import 'package:flutter_instagram/layout/mobile_screen_layout.dart';
@@ -10,16 +9,7 @@ import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  kIsWeb
-      ? await Firebase.initializeApp(
-          options: const FirebaseOptions(
-          projectId: "instagram-clone-13f77",
-          appId: "1:180168720453:web:36226e70a39674f4b5e32c",
-          apiKey: "AIzaSyD99IPVfJAkj03L8O_afH7mg_aOgd5MRgo",
-          messagingSenderId: "180168720453",
-          storageBucket: "instagram-clone-13f77.appspot.com",
-        ))
-      : await Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
