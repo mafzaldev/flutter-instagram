@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram/utils/app_colors.dart';
 import 'package:flutter_instagram/widgets/post_Card.dart';
@@ -22,14 +23,30 @@ class HomeFeedScreen extends StatelessWidget {
           SvgPicture.asset(
             "assets/svgs/Messenger.svg",
             color: AppColors.primaryColor,
-            height: 28,
+            height: 26,
           ),
           const SizedBox(
             width: 10,
           )
         ],
       ),
-      body: const PostCard(),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+                child: CircularProgressIndicator(
+              color: AppColors.primaryColor,
+            ));
+          }
+          return ListView.builder(
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) =>
+                PostCard(postDetails: snapshot.data!.docs[index].data()),
+          );
+        },
+      ),
     );
   }
 }

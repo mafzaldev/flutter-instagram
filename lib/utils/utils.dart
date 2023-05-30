@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_instagram/screens/add_post_screen.dart';
 import 'package:flutter_instagram/screens/home_feed_screen.dart';
+import 'package:flutter_instagram/screens/profile_screen.dart';
+import 'package:flutter_instagram/screens/search_Screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -29,15 +32,13 @@ class Utils {
 
   static final homeScreenItems = [
     const HomeFeedScreen(),
-    Container(
-      color: Colors.blue,
-    ),
+    const SearchScreen(),
     const AddPostScreen(),
-    Container(
-      color: Colors.yellow,
+    const Center(
+      child: Text("TODO: to be implemented!"),
     ),
-    Container(
-      color: Colors.purple,
+    ProfileScreen(
+      uid: FirebaseAuth.instance.currentUser!.uid,
     ),
   ];
 }

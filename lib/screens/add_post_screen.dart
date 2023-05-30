@@ -24,24 +24,21 @@ class _AddPostScreenState extends State<AddPostScreen> {
     setState(() {
       _isUploading = true;
     });
-    try {
-      String result = await FireStoreService().uploadPost(
-          _captionController.text, _image!, uid, username, profImage);
-      if (result == "success") {
-        Utils.showToast("Post uploaded succcessfully");
-        setState(() {
-          _image = null;
-          _captionController.clear();
-          _isUploading = false;
-        });
-      } else {
-        Utils.showToast(result);
-        setState(() {
-          _isUploading = false;
-        });
-      }
-    } catch (e) {
-      Utils.showToast(e.toString());
+
+    String result = await FireStoreService()
+        .uploadPost(_captionController.text, _image!, uid, username, profImage);
+    if (result == "success") {
+      Utils.showToast("Post uploaded!");
+      setState(() {
+        _image = null;
+        _captionController.clear();
+        _isUploading = false;
+      });
+    } else {
+      Utils.showToast(result);
+      setState(() {
+        _isUploading = false;
+      });
     }
   }
 
@@ -56,6 +53,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
         context: context,
         builder: (context) {
           return SimpleDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             title: const Text("Create Post"),
             children: [
               SimpleDialogOption(

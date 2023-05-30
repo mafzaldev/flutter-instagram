@@ -82,13 +82,13 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
               label: 'Add'),
           BottomNavigationBarItem(
               icon: SvgPicture.asset(
-                "assets/svgs/Reels.svg",
+                "assets/svgs/Like.svg",
                 color: _page == 3
                     ? AppColors.primaryColor
                     : AppColors.secondaryColor,
                 height: 30,
               ),
-              label: 'Reels'),
+              label: 'Notifications'),
           BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 "assets/svgs/User.svg",

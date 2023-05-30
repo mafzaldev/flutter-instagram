@@ -21,33 +21,27 @@ class FireAuthService {
     required Uint8List profileImage,
   }) async {
     try {
-      if (email.isNotEmpty ||
-          password.isNotEmpty ||
-          username.isNotEmpty ||
-          bio.isNotEmpty ||
-          profileImage != null) {
-        UserCredential userCredential = await auth
-            .createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
 
-        String photoUrl = await FireStorageService()
-            .uploadImage("profile_images", profileImage, false);
+      String photoUrl = await FireStorageService()
+          .uploadImage("profile_images", profileImage, false);
 
-        user_model.User user = user_model.User(
-            username: username,
-            uid: userCredential.user!.uid,
-            photoUrl: photoUrl,
-            email: email,
-            bio: bio,
-            followers: [],
-            following: []);
+      user_model.User user = user_model.User(
+          username: username,
+          uid: userCredential.user!.uid,
+          photoUrl: photoUrl,
+          email: email,
+          bio: bio,
+          followers: [],
+          following: []);
 
-        _firestore
-            .collection("users")
-            .doc(userCredential.user!.uid)
-            .set(user.toJson());
+      _firestore
+          .collection("users")
+          .doc(userCredential.user!.uid)
+          .set(user.toJson());
 
-        result = "success";
-      }
+      result = "success";
     } on FirebaseAuthException catch (err) {
       if (err.code == 'weak-password') {
         result = "The password provided is too weak";
@@ -83,5 +77,9 @@ class FireAuthService {
       result = e.toString();
     }
     return result;
+  }
+
+  Future<void> signOut() async {
+    await auth.signOut();
   }
 }

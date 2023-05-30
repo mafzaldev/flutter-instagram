@@ -47,19 +47,28 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void signUpUser() async {
+    if (_emailController.text.isEmpty ||
+        _passwordController.text.isEmpty ||
+        _usernameController.text.isEmpty ||
+        _bioController.text.isEmpty ||
+        _profileImage == null) return;
+
     setState(() {
       _isLoading = true;
     });
+
     String result = await FireAuthService().signUpUser(
         email: _emailController.text,
         password: _passwordController.text,
         username: _usernameController.text,
         bio: _bioController.text,
         profileImage: _profileImage!);
+
     _emailController.clear();
     _passwordController.clear();
     _usernameController.clear();
     _bioController.clear();
+
     if (result == "success") {
       Utils.showToast("Logged in successfully!");
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
