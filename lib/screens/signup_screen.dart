@@ -2,9 +2,7 @@
 
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:flutter_instagram/responsive/mobile_screen_layout.dart';
-import 'package:flutter_instagram/responsive/responsive_layout_screen.dart';
-import 'package:flutter_instagram/responsive/web_screen_layout.dart';
+import 'package:flutter_instagram/layout/mobile_screen_layout.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -72,8 +70,7 @@ class _SignupScreenState extends State<SignupScreen> {
     if (result == "success") {
       Utils.showToast("Logged in successfully!");
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return const ResponsiveLayout(
-            webLayout: WebScreenLayout(), mobileLayout: MobileScreenLayout());
+        return const MobileScreenLayout();
       }));
     }
 

@@ -18,9 +18,7 @@ class User {
       required this.followers,
       required this.following});
 
-  static User fromSnap(DocumentSnapshot snap) {
-    var snapshot = snap.data() as Map<String, dynamic>;
-
+  static User fromSnap(DocumentSnapshot snapshot) {
     return User(
       username: snapshot["username"],
       uid: snapshot["uid"],

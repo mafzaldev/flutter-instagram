@@ -3,13 +3,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_instagram/providers/user_provider.dart';
 import 'package:flutter_instagram/screens/login_screen.dart';
-import 'package:flutter_instagram/services/fire_auth.dart';
 import 'package:flutter_instagram/services/fire_store.dart';
 import 'package:flutter_instagram/utils/app_colors.dart';
 import 'package:flutter_instagram/utils/utils.dart';
 import 'package:flutter_instagram/widgets/follow_button.dart';
 import 'package:flutter_instagram/widgets/stats_column.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
@@ -37,6 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       isLoading = true;
     });
+
     try {
       final userDetailsSnap = await FirebaseFirestore.instance
           .collection("users")
@@ -45,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       final postLen = await FirebaseFirestore.instance
           .collection("posts")
-          .where("uid", isEqualTo: widget.uid)
+          .where("uid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .get();
       setState(() {
         userDetails = userDetailsSnap.data()!;
@@ -66,6 +68,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
     return isLoading
         ? const Center(
             child: CircularProgressIndicator(
@@ -124,7 +128,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         text: "Sign out",
                                         textColor: AppColors.primaryColor,
                                         function: () async {
-                                          await FireAuthService().signOut();
+                                          userProvider.logout();
                                           Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(

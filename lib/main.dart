@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_instagram/providers/user_provider.dart';
-import 'package:flutter_instagram/responsive/mobile_screen_layout.dart';
-import 'package:flutter_instagram/responsive/responsive_layout_screen.dart';
-import 'package:flutter_instagram/responsive/web_screen_layout.dart';
+import 'package:flutter_instagram/layout/mobile_screen_layout.dart';
 import 'package:flutter_instagram/screens/login_screen.dart';
 import 'package:flutter_instagram/utils/app_colors.dart';
 import 'package:provider/provider.dart';
@@ -42,9 +40,7 @@ class MyApp extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.active) {
               if (snapshot.hasData) {
-                return const ResponsiveLayout(
-                    webLayout: WebScreenLayout(),
-                    mobileLayout: MobileScreenLayout());
+                return const MobileScreenLayout();
               } else if (snapshot.hasError) {
                 return Center(child: Text('${snapshot.error}'));
               }

@@ -65,7 +65,7 @@ class FireAuthService {
         UserCredential userCredential = await auth.signInWithEmailAndPassword(
             email: email, password: password);
         log("User logged in successfully with email: ${userCredential.user!.email}");
-        result = "User logged in successfully";
+        result = "success";
       }
     } on FirebaseAuthException catch (err) {
       if (err.code == 'user-not-found') {

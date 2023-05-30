@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_instagram/models/user.dart';
+import 'package:flutter_instagram/providers/user_provider.dart';
 import 'package:flutter_instagram/screens/profile_screen.dart';
 import 'package:flutter_instagram/utils/app_colors.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -24,6 +27,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    User user = Provider.of<UserProvider>(context).user;
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.mobileBackgroundColor,
@@ -57,6 +62,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   return ListView.builder(
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
+                        if (snapshot.data!.docs[index]["uid"] == user.uid) {
+                          return const SizedBox();
+                        }
                         return Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
@@ -69,7 +77,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                             ["uid"]))),
                             leading: CircleAvatar(
                               backgroundImage: NetworkImage(
-                                  snapshot.data!.docs[index]["photoUrl"]),
+                                  snapshot.data!.docs[index]["photoUrl"] ?? ""),
                             ),
                             title: Text(snapshot.data!.docs[index]["username"]),
                           ),
